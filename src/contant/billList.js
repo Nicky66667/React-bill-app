@@ -16,7 +16,7 @@ export const billListData = {
       name: 'Transportation',
       list: [
         { type: 'rent', name: 'Renting Car' },
-        { type: 'longdistance', name: 'Trail' },
+        { type: 'Bus', name: 'Bus' },
       ],
     },
     {
@@ -25,7 +25,6 @@ export const billListData = {
       list: [
         { type: 'sports', name: 'Sports' },
         { type: 'game', name: 'Gaming' },
-        { type: 'movie', name: 'Watching Movie' },
         { type: 'travel', name: 'Traveling' },
       ],
     },
@@ -41,7 +40,9 @@ export const billListData = {
     {
       type: 'other',
       name: 'Other',
-      list: [{ type: 'community', name: 'Taxs' }],
+      list: [{ type: 'community', name: 'Taxs' },
+      { type: 'education', name: 'Tutions' }
+      ],
     },
   ],
   income: [
@@ -58,7 +59,7 @@ export const billListData = {
       name: 'Other',
       list: [
         { type: 'financial', name: 'Saving' },
-        { type: 'cashgift', name: 'Stock' },
+        { type: 'stock', name: 'Stock' },
       ],
     },
   ],

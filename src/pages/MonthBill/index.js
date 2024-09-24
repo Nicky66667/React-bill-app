@@ -17,50 +17,58 @@ const MonthlyBill = () => {
   const { state } = useLocation()
   const { date, visible, onShowDate, onHideDate, onDateChange } = useDate()
 
+  // Extract year and month from the selected date
   const selectedYear = date.get('year')
   const selectedMonth = date.get('month')
+
+  // Get the list of bills for the selected month
   const currentBillList = useMonthBillList(selectedYear, selectedMonth)
 
+  // Get an overview (income and expenses) for the current month
   const overview = getOverview(currentBillList)
 
+  // Memoized calculation to group bills by date and sort them in descending order
   const monthBills = useMemo(() => {
     const billGroup = groupBy(currentBillList, item =>
       dayjs(item.date).format('YYYY-MM-DD')
     )
     const sortedKeys = orderBy(
       Object.keys(billGroup),
-      // 转成日期数字，在进行比较
+      // Convert date string to a number for comparison
       item => +new Date(item),
       'desc'
     )
     return {
-      keys: sortedKeys,
-      billGroup,
+      keys: sortedKeys,  // Return sorted dates
+      billGroup, // Return grouped bills
     }
-  }, [currentBillList])
+  }, [currentBillList])  // Recalculate whenever the bill list changes
 
+  //set the date from navigation state if available
   useEffect(() => {
     if (state === null) return
-    onDateChange(state.date)
-  }, [state, onDateChange])
+    onDateChange(state.date) // Update date based on state
+  }, [state, onDateChange]) // Re-run effect when state or onDateChange changes
 
+  // Function to render the daily bills for the month
   const renderMonthBills = () => {
     const { keys, billGroup } = monthBills
     return keys.map(key => {
-      const dateText = dayjs(key).format('MM-DD')
-      const overview = getOverview(billGroup[key])
+      const dateText = dayjs(key).format('MM-DD') // Format the date as MM-DD
+      const overview = getOverview(billGroup[key]) // Get the overview for that day's bills
 
       return (
         <DailyBill
           key={key}
-          overview={overview}
-          dateText={dateText}
-          billList={billGroup[key]}
+          overview={overview}  // Overview of income and expenses for the day
+          dateText={dateText} // Display the date in MM-DD format
+          billList={billGroup[key]} // List of bills for the day
         />
       )
     })
   }
 
+  // convert month number to month name
   const switchMonth = () => {
     if (selectedMonth == 0) {
       return "January"

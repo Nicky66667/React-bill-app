@@ -2,6 +2,8 @@ import classNames from 'classnames'
 
 import './index.scss'
 
+// This is the overview of total bill
+
 const TwoLineOverview = ({ pay, income }) => {
   return (
     <div className={classNames('twoLineOverview')}>

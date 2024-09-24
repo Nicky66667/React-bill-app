@@ -1,7 +1,6 @@
 import { Button, DatePicker, Input, NavBar } from 'antd-mobile'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Icon from '@/components/Icon'
 import './index.scss'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
@@ -13,57 +12,58 @@ import { useDate } from '@/hooks/useDate'
 const KeepAccounts = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [money, setMoney] = useState('')
-  const [billType, setBillType] = useState('pay')
-  const [selectedBillType, setSelectedBillType] = useState('')
+  const [money, setMoney] = useState('') // State for the amount of money
+  const [billType, setBillType] = useState('pay') // State for the type of bill (income or expense)
+  const [selectedBillType, setSelectedBillType] = useState('') // State for the selected bill type
 
+  // Use custom date hook to manage date visibility and text
   const { visible, dateText, onShowDate, onHideDate, onDateChange } = useDate()
 
+  // Function to save the bill data
   const saveBill = async () => {
     const data = {
-      type: billType,
-      money: billType === 'pay' ? 0 - money : +money,
+      type: billType, // Set bill type (pay or income)
+      money: billType === 'pay' ? 0 - money : +money, // Set money as negative for expenses
       date:
         dateText === 'Today'
-          ? dayjs()
-          : dayjs(`${dateText} ${dayjs().format('HH:mm:ss')}`),
-      useFor: selectedBillType,
+          ? dayjs() // Use current date if 'Today' is selected
+          : dayjs(`${dateText} ${dayjs().format('HH:mm:ss')}`),  // Combine selected date with current time
+      useFor: selectedBillType  // Set the purpose of the bill
     }
-    await dispatch(createBill(data))
-    navigate('/')
+    await dispatch(createBill(data)) // create a bill with the data
+    navigate('/')  // Navigate back to the home page
   }
 
   return (
-    <div className="keepAccounts">
+    <div className="keepAccounts"> {/* Main container for the component */}
       <NavBar className="nav" onBack={() => navigate(-1)}>
-        Add new transaction
+        Add new bill
       </NavBar>
 
       <div className="header">
-        <div className="kaType">
+        <div className="Type">  {/* Bill type selection */}
           <Button
             shape="rounded"
             className={classNames(billType === 'pay' ? 'selected' : '')}
-            onClick={() => setBillType('pay')}
+            onClick={() => setBillType('pay')} // Set bill type to 'pay'
           >
             Expenses
           </Button>
           <Button
             className={classNames(billType === 'income' ? 'selected' : '')}
             shape="rounded"
-            onClick={() => setBillType('income')}
+            onClick={() => setBillType('income')} // Set bill type to 'income'
           >
             Income
           </Button>
         </div>
 
-        <div className="kaFormWrapper">
-          <div className="kaForm">
-            <div className="date" onClick={onShowDate}>
-              <Icon type="calendar" className="icon" />
-              <span className="text">{dateText}</span>
+        <div className="FormWrapper"> {/* Wrapper for the form elements */}
+          <div className="Form"> {/* Form container */}
+            <div className="date" onClick={onShowDate}> {/* Date selection section */}
+              <span className="text">Calendar</span> {/* Calendar text */}
               <DatePicker
-                className="kaDate"
+                className="Date"
                 title="select date"
                 visible={visible}
                 onClose={onHideDate}
@@ -71,7 +71,7 @@ const KeepAccounts = () => {
                 onConfirm={onDateChange}
               />
             </div>
-            <div className="kaInput">
+            <div className="Input"> {/* Input section for money entry */}
               <Input
                 className="input"
                 placeholder="0.00"
@@ -79,16 +79,16 @@ const KeepAccounts = () => {
                 value={money}
                 onChange={setMoney}
               />
-              <span className="iconYuan">¥</span>
+              <span className="currency">£</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="kaTypeList">
+      <div className="TypeList">  {/* List of bill types for selection */}
         {billListData[billType].map(item => {
           return (
-            <div className="kaType" key={item.type}>
+            <div className="Type" key={item.type}>
               <div className="title">{item.name}</div>
               <div className="list">
                 {item.list.map(item => {
@@ -101,9 +101,7 @@ const KeepAccounts = () => {
                       key={item.type}
                       onClick={() => setSelectedBillType(item.type)}
                     >
-                      <div className="icon">
-                        <Icon type={item.type} />
-                      </div>
+
                       <div className="text">{item.name}</div>
                     </div>
                   )
@@ -117,6 +115,9 @@ const KeepAccounts = () => {
       <div className="btns">
         <Button className="btn save" onClick={() => saveBill()}>
           save
+        </Button>
+        <Button className="btn save" onClick={() => navigate(-1)}>
+          cancal
         </Button>
       </div>
     </div>

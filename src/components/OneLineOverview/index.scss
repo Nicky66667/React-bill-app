@@ -5,7 +5,7 @@
   .pay {
     flex: 1;
     .type {
-      font-size: 10px;
+      font-size: 14px;
       margin-right: 2.5px;
       color: #e56a77;
     }
@@ -18,9 +18,9 @@
   .income {
     flex: 1;
     .type {
-      font-size: 10px;
+      font-size: 14px;
       margin-right: 2.5px;
-      color: #4f827c;
+      color: #4682B4;
     }
     .money {
       color: var(--ka-text-color);
@@ -39,8 +39,8 @@
       font-size: 17px;
     }
     .type {
-      font-size: 10px;
-      color: var(--ka-text-color);
+      font-size: 14px;
+      color: #191970;
     }
   }
 }

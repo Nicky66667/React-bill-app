@@ -8,11 +8,13 @@
   color: var(--ka-text-color);
 
   .nav {
-    --adm-font-size-10: 16px;
+    padding-top: 10px;
+    --adm-font-size-10: 20px;
     color: #121826;
     background-color: transparent;
     .adm-nav-bar-back-arrow {
       font-size: 22px;
+
     }
   }
 
